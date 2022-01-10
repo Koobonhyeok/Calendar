@@ -158,3 +158,8 @@
 .textarea {
   height: 200px;
 }
+
+.include {
+  border: 3px solid black;
+  border-top: none;
+}

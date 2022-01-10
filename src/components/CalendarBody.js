@@ -8,16 +8,23 @@ function CalendarBody(props){
         const firstDayOfMonth = moment(monthYear).startOf('month');
         const firstDateOfMonth = firstDayOfMonth.get('d');
         const firstDayOfWeek = firstDayOfMonth.clone().add('d', -firstDateOfMonth);
-
-        const _Weeks = [];
         
+        const _Weeks = [];
+        let days = "";
+
+        if( props.scedule.length !== 0 ){
+            
+            props.scedule.map((data, index)=>(console.log(data.title ) ))
+        }
+        
+        console.log(days)
         for( let i = 0; i<6; i++){
             _Weeks.push((
                 <Draw 
                     key={`RCA-calendar-week-${i}`}
                     ymOfThisCalendar={firstDayOfMonth.format("YYYY-MM")} 
                     DayOfThisWeekformat={firstDayOfWeek.clone().add('d', i *7).format("YYYY-MM-DD")}
-
+                    days={days}
                 />
             ))
         }
@@ -81,18 +88,25 @@ function DateHeader( props ){
 }
 
 function Draw(props){
-
+    
     function Days( firstDayFormat ){
       
       const _days = [];
+      
+    //   console.log(props.days.indexOf('202111228'))
+
       for (let i = 0; i < 7; i++) {
         
         const Day = moment(firstDayFormat).add('d', i);
-        
+        let include = 0;
+        if( props.days.indexOf(Day.format("YYYYMMDD")) != -1 ){
+            include = 1;
+        }
         _days.push({
           yearMonthDayFormat: Day.format("YYYY-MM-DD"),
           getDay: Day.format('D'),
           isHolyDay: false,
+          include:include
         });
       }
 
@@ -113,12 +127,17 @@ function Draw(props){
           } else if (i === 6) {
             className = "date-sat"
           }
+
+          let include = "notInclude";
+          if( dayInfo.include === 1 ){
+            include = "include";
+          }
           
           return (
               // onClick={() => fn(dayInfo.yearMonthDayFormat) }
               // ()=>{this.props.moveMonth(-1)}
             <div className={"RCA-calendar-day " + className} key={i}>
-              <label className="RCA-calendar-day">
+              <label className={"RCA-calendar-day " + include}>
                 {dayInfo.getDay}
               </label>
             </div>
