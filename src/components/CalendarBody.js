@@ -3,7 +3,7 @@ import React from "react";
 import moment from 'moment';
 
 function CalendarBody(props){
-
+    
     function Week( monthYear ){
         const firstDayOfMonth = moment(monthYear).startOf('month');
         const firstDateOfMonth = firstDayOfMonth.get('d');
@@ -11,13 +11,11 @@ function CalendarBody(props){
         
         const _Weeks = [];
         let days = "";
-
-        if( props.scedule.length !== 0 ){
-            
-            props.scedule.map((data, index)=>(console.log(data.title ) ))
-        }
         
-        console.log(days)
+        if( props.scedule.length !== 0 ){
+            props.scedule.map((data, index)=>( (days+= data.day+",") ))
+        }
+
         for( let i = 0; i<6; i++){
             _Weeks.push((
                 <Draw 
@@ -25,6 +23,7 @@ function CalendarBody(props){
                     ymOfThisCalendar={firstDayOfMonth.format("YYYY-MM")} 
                     DayOfThisWeekformat={firstDayOfWeek.clone().add('d', i *7).format("YYYY-MM-DD")}
                     days={days}
+                    searchDate={props.searchDate}
                 />
             ))
         }
@@ -92,8 +91,6 @@ function Draw(props){
     function Days( firstDayFormat ){
       
       const _days = [];
-      
-    //   console.log(props.days.indexOf('202111228'))
 
       for (let i = 0; i < 7; i++) {
         
@@ -136,7 +133,7 @@ function Draw(props){
           return (
               // onClick={() => fn(dayInfo.yearMonthDayFormat) }
               // ()=>{this.props.moveMonth(-1)}
-            <div className={"RCA-calendar-day " + className} key={i}>
+            <div className={"RCA-calendar-day " + className} key={i} onClick={()=>{ props.searchDate(dayInfo.yearMonthDayFormat) }}>
               <label className={"RCA-calendar-day " + include}>
                 {dayInfo.getDay}
               </label>

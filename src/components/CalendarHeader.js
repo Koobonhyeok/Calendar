@@ -3,7 +3,7 @@ import React, {useState, useEffect} from 'react'
 import moment from 'moment'
 
 function CalendarHeader(props){
-    let [YM, changeYM] = useState('');
+    let [YM, changeYM] = useState(moment(props.calendar).format("YYYY MM"));
     let [today, changeToday] = useState(moment().format("YYYY-MM-DD"))
     useEffect(()=>{
         changeYM( moment(props.calendar).format("YYYY MM") )
